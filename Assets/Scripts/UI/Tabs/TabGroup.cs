@@ -13,10 +13,10 @@ public class TabGroup : MonoBehaviour
     protected float exitDelaytime = 1.1f;
     protected static LTDescr delay;
 
-    public void Initialize()
+    public void Initialize(UIGeneralManager uiManager)
     {
         tButtons = new List<TabButton>();
-        uiGeneralManager = FindObjectOfType<UIGeneralManager>();
+        uiGeneralManager = uiManager;
         SubscribeTabButtons();
         UpdateTabGroupState();
     }
@@ -26,7 +26,15 @@ public class TabGroup : MonoBehaviour
         {
             var tabButton = tabButtonsHolder.GetChild(i).GetComponent<TabButton>();
             tabButton.tGroup = this;
-            tabButton.bGround = tabButton.GetComponent<Image>();
+            try
+            {
+                tabButton.bGround = tabButton.GetComponent<Image>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("No image in this tabButton: " + tabButton.gameObject.name);
+                throw;
+            }
             tButtons.Add(tabButton);
             if (!tabButton.isStartingTab) continue;
             selTab = tabButton;
@@ -84,5 +92,10 @@ public class TabGroup : MonoBehaviour
             //TODO: Check Hardcoded delayTime
             delay = LeanTween.delayedCall(.3f, () => { gObject.SetActive(selected); });
         }
+    }
+
+    public List<TabButton> GetTabButtons()
+    {
+        return tButtons;
     }
 }

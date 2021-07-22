@@ -18,12 +18,12 @@ public class TabButton : MonoBehaviour, IPointerClickHandler
     {
         bGround = GetComponent<Image>();
     }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log(gameObject.name + " was Clicked!");
         tGroup.ClickOnTab(this);
     }
+
 
     public int RotatingObjectsCount()
     {

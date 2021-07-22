@@ -14,6 +14,7 @@ public struct ThemeColors
         selCol = _selCol;
     }
 }
+
 public class UIGeneralManager : MonoBehaviour
 {
     public ThemeColors themeColors;
@@ -27,17 +28,29 @@ public class UIGeneralManager : MonoBehaviour
         SetThemeColors();
         InitializeTGroups();
     }
-
     private void InitializeTGroups()
     {
         foreach (var tabGroup in FindObjectsOfType<TabGroup>())
         {
             tGroups.Add(tabGroup);
-            tabGroup.Initialize();
+            tabGroup.Initialize(this);
         }
     }
     public void SetThemeColors()
     {
         themeColors = new ThemeColors(nonSelCol, selCol);
+    }
+    public void InitializeTabGroup(TabGroup tGroup)
+    {
+        tGroups.Add(tGroup);
+        tGroup.Initialize(this);
+    }
+    public void SetObjectInactiveInUI(GameObject gObject)
+    {
+        gObject.SetActive(false);
+    }
+    public void SetObjectActiveInUI(GameObject gObject)
+    {
+        gObject.SetActive(true);
     }
 }
